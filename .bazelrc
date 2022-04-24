@@ -1,0 +1,10 @@
+# Use our custom-configured c++ toolchain.
+build:aarch64 --crosstool_top=//toolchain:linaro_aarch64
+
+# Use --cpu as a differentiator.
+# We can use cpu aarch64 or alias arm64
+build:aarch64 --cpu=aarch64
+
+# Use the default Bazel C++ toolchain to build the tools used during the
+# build.
+build:aarch64 --host_crosstool_top=@bazel_tools//tools/cpp:toolchain

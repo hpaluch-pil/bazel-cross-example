@@ -1,0 +1,9 @@
+# vim files
+*.swp
+*.tmp
+*.bak
+*~
+
+# bazel
+/bazel-*
+
