@@ -67,7 +67,7 @@ And run:
 bazel build --config=aarch64 '//:hello'
 ```
 
-It should build aarch64 binary - you can verity it with command:
+It should build aarch64 binary - you can verify it with command:
 ```bash
 $ readelf -h bazel-bin/hello | fgrep Machine:
 
