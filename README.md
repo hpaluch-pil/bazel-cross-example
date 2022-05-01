@@ -9,20 +9,21 @@ Tested OS: `openSUSE LEAP 15.3`/`x86_64`
 
 You need to install at least packages:
 ```bash
-sudo zypper in git-core gcc-c++ gcc
-
+sudo zypper in curl git-core gcc-c++ gcc
 ```
-Install these Bazel packages:
+
+Now install Bazelisk:
 ```bash
-sudo zypper in bazel python-devel python-xml
+mkdir -p ~/bin
+curl -fL -o ~/bin/bazel https://github.com/bazelbuild/bazelisk/releases/download/v1.11.0/bazelisk-linux-amd64
+chmod +x ~/bin/bazel
 ```
-This bazel version was tested:
+Ensure that you are using your Bazelisk (named as `bazel`):
 ```bash
-$ bazel --version
+which bazel
 
-bazel 3.4.1- (@non-git)
+/home/$USER/bin/bazel
 ```
-
 
 Now checkout this source:
 ```bash
@@ -31,6 +32,15 @@ cd ~/projects
 git clone https://github.com/hpaluch-pil/bazel-cross-example.git
 cd bazel-cross-example
 ```
+
+Now verify Bazel version - must be 4.2.2 to match `.bazelversion`
+in this project:
+```bash
+$ bazel --version
+
+bazel 4.2.2
+```
+
 
 ## Building: `x86_64`
 
@@ -43,6 +53,23 @@ bazel query ...
 # build target...
 bazel build '//:hello'
 ```
+You can run this program invoking:
+```bash
+bazel run '//:hello'
+```
+Example output:
+```
+INFO: Analyzed target //:hello (0 packages loaded, 0 targets configured).
+INFO: Found 1 target...
+Target //:hello up-to-date:
+  bazel-bin/hello
+INFO: Elapsed time: 1.056s, Critical Path: 0.80s
+INFO: 3 processes: 1 internal, 2 linux-sandbox.
+INFO: Build completed successfully, 3 total actions
+INFO: Build completed successfully, 3 total actions
+Hello, x86_64 world!
+```
+
 
 ## Building: `aarch64`
 
@@ -73,6 +100,21 @@ $ readelf -h bazel-bin/hello | fgrep Machine:
 
  Machine:                           AArch64
 ```
+
+To run aarch64 binary under QEMU emulation you can try this:
+- install QEMU USER package:
+  ```bash
+  sudo zypper in qemu-linux-user
+  ```
+- and run binary user QEMU USER:
+  ```bash
+  qemu-aarch64 -L /opt/aarch64-linux-gnu/aarch64-linux-gnu/libc \
+     bazel-bin/hello
+  ```
+- shoud produce output:
+  ```
+  Hello, aarch64 world!
+  ```
 
 # Resources
 
