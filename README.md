@@ -6,7 +6,7 @@ with Bazel and various toolchains.
 These targets are supported:
 
 1. Local x86_64 using system GCC
-1. Exteranl Linaro/aarch64 toolchain in /opt (see below)
+1. External Linaro/aarch64 toolchain in /opt (see below)
 1. embedded Linux (elinux) aarch64 target from TensorFlow (TF)
 1. embedded Linux (elinux) amrhf (32 bit ARM with Hardware Float) target from TensorFlow (TF)
 
@@ -131,7 +131,7 @@ target run scripts:
 ./build_elinux_aarch64.sh
 ```
 
-To verify target architecturet try:
+To verify target architecture try:
 ```bash
 $ readelf -h bazel-bin/hello | fgrep Machine:
 
@@ -144,6 +144,11 @@ $ readelf -d bazel-bin/hello | fgrep NEEDED
  0x0000000000000001 (NEEDED)             Shared library: [ld-linux-aarch64.so.1]
 ```
 
+To run `elinux_aarch64` binary under QEMU AArch64 emulator try:
+```bash
+./run_qemu_elinux_aarch64.sh
+```
+
 ## 4. Building elinux_armhf
 
 Uses embedded Linux (elinux) 32-bit ARM HF (hardware float) target from TF. To build this
@@ -153,7 +158,7 @@ target run scripts:
 ./build_elinux_armhf.sh
 ```
 
-To verify target architecturet try:
+To verify target architecture try:
 ```bash
 $ readelf -h bazel-bin/hello | fgrep Machine:
 
@@ -166,6 +171,12 @@ $ readelf -d bazel-bin/hello | fgrep NEEDED
  0x00000001 (NEEDED)                     Shared library: [libc.so.6]
  0x00000001 (NEEDED)                     Shared library: [ld-linux-armhf.so.3]
 ```
+
+To run `elinux_armhf` binary under QEMU ARM try:
+```bash
+./run_qemu_elinux_armhf.sh
+```
+
 
 # Resources
 * TensorFlow - elinux toolchains come from this project:
