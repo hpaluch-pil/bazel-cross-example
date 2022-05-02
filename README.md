@@ -18,6 +18,10 @@ You need to install at least packages:
 ```bash
 sudo zypper in curl git-core gcc-c++ gcc
 ```
+To run `aarch64` and `armhf` targets in QEMU emulator, install this package:
+```bash
+sudo zypper in qemu-linux-user
+```
 
 Now install Bazelisk:
 ```bash
@@ -108,10 +112,6 @@ $ readelf -h bazel-bin/hello | fgrep Machine:
 ```
 
 To run aarch64 binary under QEMU emulation you can try this:
-- install QEMU USER package:
-  ```bash
-  sudo zypper in qemu-linux-user
-  ```
 - and run binary user QEMU USER:
   ```bash
   qemu-aarch64 -L /opt/aarch64-linux-gnu/aarch64-linux-gnu/libc \
@@ -125,7 +125,7 @@ To run aarch64 binary under QEMU emulation you can try this:
 ## 3. Building elinux_aarch64
 
 Uses embedded Linux (elinux) aarch64 target from TF. To build this
-target run scripts:
+target run script:
 
 ```bash
 ./build_elinux_aarch64.sh
@@ -152,7 +152,7 @@ To run `elinux_aarch64` binary under QEMU AArch64 emulator try:
 ## 4. Building elinux_armhf
 
 Uses embedded Linux (elinux) 32-bit ARM HF (hardware float) target from TF. To build this
-target run scripts:
+target run script:
 
 ```bash
 ./build_elinux_armhf.sh
