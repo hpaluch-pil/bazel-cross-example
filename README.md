@@ -1,7 +1,14 @@
 # Bazel Cross-compile example
 
 Example how to cross-compile C++ program
-with Bazel and external Linaro aarch64 toolchain.
+with Bazel and various toolchains.
+
+These targets are supported:
+
+1. Local x86_64 using system GCC
+1. Exteranl Linaro/aarch64 toolchain in /opt (see below)
+1. embedded Linux (elinux) aarch64 target from TensorFlow (TF)
+1. embedded Linux (elinux) amrhf (32 bit ARM with Hardware Float) target from TensorFlow (TF)
 
 ## Setup
 
@@ -41,8 +48,7 @@ $ bazel --version
 bazel 4.2.2
 ```
 
-
-## Building: `x86_64`
+## 1. Building: `x86_64`
 
 It is useful to verify that Bazel is working as expected:
 
@@ -71,7 +77,7 @@ Hello, x86_64 world!
 ```
 
 
-## Building: `aarch64`
+## 2. Building: `aarch64` external Linaro
 
 At first install Linaro aarch64 cross-compiler:
 - download:
@@ -116,8 +122,54 @@ To run aarch64 binary under QEMU emulation you can try this:
   Hello, aarch64 world!
   ```
 
-# Resources
+## 3. Building elinux_aarch64
 
+Uses embedded Linux (elinux) aarch64 target from TF. To build this
+target run scripts:
+
+```bash
+./build_elinux_aarch64.sh
+```
+
+To verify target architecturet try:
+```bash
+$ readelf -h bazel-bin/hello | fgrep Machine:
+
+  Machine:                           AArch64
+
+$ readelf -d bazel-bin/hello | fgrep NEEDED
+
+ 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x0000000000000001 (NEEDED)             Shared library: [ld-linux-aarch64.so.1]
+```
+
+## 4. Building elinux_armhf
+
+Uses embedded Linux (elinux) 32-bit ARM HF (hardware float) target from TF. To build this
+target run scripts:
+
+```bash
+./build_elinux_armhf.sh
+```
+
+To verify target architecturet try:
+```bash
+$ readelf -h bazel-bin/hello | fgrep Machine:
+
+  Machine:                           ARM
+
+$ readelf -d bazel-bin/hello | fgrep NEEDED
+
+ 0x00000001 (NEEDED)                     Shared library: [libstdc++.so.6]
+ 0x00000001 (NEEDED)                     Shared library: [libgcc_s.so.1]
+ 0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+ 0x00000001 (NEEDED)                     Shared library: [ld-linux-armhf.so.3]
+```
+
+# Resources
+* TensorFlow - elinux toolchains come from this project:
+  * https://github.com/tensorflow/tensorflow
 * https://docs.bazel.build/versions/main/tutorial/cc-toolchain-config.html
 * https://docs.bazel.build/versions/2.2.0/tutorial/cc-toolchain-config.html
 
