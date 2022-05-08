@@ -1,10 +1,19 @@
-# Use our custom-configured c++ toolchain.
+# This config 'aarch64' uses external Linaro toolchain
 build:aarch64 --crosstool_top=//toolchain:linaro_aarch64
-
-# Use --cpu as a differentiator.
-# We can use cpu aarch64 or alias arm64
 build:aarch64 --cpu=aarch64
-
-# Use the default Bazel C++ toolchain to build the tools used during the
-# build.
 build:aarch64 --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+
+# elinux toolchains from TensorFlow (TF)
+# Congis: 'elinux_aarch64' and 'elinux_armhf'
+# TFLite build configs for generic embedded Linux
+build:elinux --crosstool_top=@local_config_embedded_arm//:toolchain
+build:elinux --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+build:elinux_aarch64 --config=elinux
+build:elinux_aarch64 --cpu=aarch64
+build:elinux_aarch64 --distinct_host_configuration=true
+build:elinux_armhf --config=elinux
+build:elinux_armhf --cpu=armhf
+build:elinux_armhf --distinct_host_configuration=true
+build:elinux_armhf --copt -mfp16-format=ieee
+# end of TFLite build configs
+
